@@ -561,9 +561,9 @@ static bool checkFlattenAppertainsTo(Sema &S, const AttributeList &Attr, const D
 
 static bool isHasFunctionProto(const Decl *D) {
   if (const Decl *S = dyn_cast<Decl>(D))
-    return (S->getFunctionType(true) != NULL &&
-                              isa<FunctionProtoType>(S->getFunctionType())) ||
-                                       isa<ObjCMethodDecl>(S) ||
+    return (S->getFunctionType(true) != NULL &&
+                              isa<FunctionProtoType>(S->getFunctionType())) ||
+                                       isa<ObjCMethodDecl>(S) ||
                                        isa<BlockDecl>(S);
   return false;
 }
@@ -1343,9 +1343,9 @@ static bool checkObjCBridgeRelatedAppertainsTo(Sema &S, const AttributeList &Att
 
 static bool isObjCInterfaceDeclInitMethod(const Decl *D) {
   if (const ObjCMethodDecl *S = dyn_cast<ObjCMethodDecl>(D))
-    return S->getMethodFamily() == OMF_init &&
-                                 (isa<ObjCInterfaceDecl>(S->getDeclContext()) ||
-                                  (isa<ObjCCategoryDecl>(S->getDeclContext()) &&
+    return S->getMethodFamily() == OMF_init &&
+                                 (isa<ObjCInterfaceDecl>(S->getDeclContext()) ||
+                                  (isa<ObjCCategoryDecl>(S->getDeclContext()) &&
             cast<ObjCCategoryDecl>(S->getDeclContext())->IsClassExtension()));
   return false;
 }
@@ -1829,11 +1829,11 @@ static bool checkSPIRVLangOpts(Sema &S, const AttributeList &Attr) {
 
 static bool isConstantTextureBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-                 S->getType()->getAs<RecordType>()->getDecl() &&
-                 (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "ConstantBuffer" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+                 S->getType()->getAs<RecordType>()->getDecl() &&
+                 (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "ConstantBuffer" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
                       "TextureBuffer");
   return false;
 }
@@ -1867,9 +1867,9 @@ static bool checkVKCapabilityExtAppertainsTo(Sema &S, const AttributeList &Attr,
 
 static bool isTextureOrSampler(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-                 S->getType()->getAs<RecordType>()->getDecl() &&
-                 (S->getType()->getAs<RecordType>()->getDecl()->getName().startswith("Texture") ||
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+                 S->getType()->getAs<RecordType>()->getDecl() &&
+                 (S->getType()->getAs<RecordType>()->getDecl()->getName().startswith("Texture") ||
                   S->getType()->getAs<RecordType>()->getDecl()->getName().startswith("Sampler"));
   return false;
 }
@@ -1900,23 +1900,23 @@ static bool checkVKConstantIdAppertainsTo(Sema &S, const AttributeList &Attr, co
 
 static bool isArrayOfCounterStructuredBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
-                  (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWStructuredBuffer" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "AppendStructuredBuffer" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
+                  (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWStructuredBuffer" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "AppendStructuredBuffer" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
                       "ConsumeStructuredBuffer");
   return false;
 }
 
 static bool isCounterStructuredBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-      (S->getType()->getAs<RecordType>()->getDecl()->getName() == "RWStructuredBuffer" ||
-       S->getType()->getAs<RecordType>()->getDecl()->getName() == "AppendStructuredBuffer" ||
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+      (S->getType()->getAs<RecordType>()->getDecl()->getName() == "RWStructuredBuffer" ||
+       S->getType()->getAs<RecordType>()->getDecl()->getName() == "AppendStructuredBuffer" ||
        S->getType()->getAs<RecordType>()->getDecl()->getName() == "ConsumeStructuredBuffer");
   return false;
 }
@@ -2004,82 +2004,82 @@ static bool checkVKExtensionExtAppertainsTo(Sema &S, const AttributeList &Attr, 
 
 static bool isRWTexture(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-                 S->getType()->getAs<RecordType>()->getDecl() &&
-                  (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture1D" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture1DArray" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture2D" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture2DArray" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture3D" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture1D" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture1DArray" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture2D" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture2DArray" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+                 S->getType()->getAs<RecordType>()->getDecl() &&
+                  (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture1D" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture1DArray" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture2D" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture2DArray" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture3D" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture1D" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture1DArray" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture2D" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture2DArray" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
                       "RasterizerOrderedTexture3D");
   return false;
 }
 
 static bool isArrayOfRWTexture(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
-                  (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture1D" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture1DArray" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture2D" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture2DArray" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWTexture3D" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture1D" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture1DArray" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture2D" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RasterizerOrderedTexture2DArray" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
+                  (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture1D" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture1DArray" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture2D" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture2DArray" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWTexture3D" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture1D" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture1DArray" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture2D" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RasterizerOrderedTexture2DArray" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
                       "RasterizerOrderedTexture3D");
   return false;
 }
 
 static bool isBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-                 S->getType()->getAs<RecordType>()->getDecl() &&
-                 (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "Buffer" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWBuffer" ||
-                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+                 S->getType()->getAs<RecordType>()->getDecl() &&
+                 (S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "Buffer" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWBuffer" ||
+                  S->getType()->getAs<RecordType>()->getDecl()->getName() ==
                       "RasterizerOrderedBuffer");
   return false;
 }
 
 static bool isArrayOfBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
-                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
-                 (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "Buffer" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
-                      "RWBuffer" ||
-                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAsArrayTypeUnsafe() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>() &&
+                 S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl() &&
+                 (S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "Buffer" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
+                      "RWBuffer" ||
+                  S->getType()->getAsArrayTypeUnsafe()->getElementType()->getAs<RecordType>()->getDecl()->getName() ==
                       "RasterizerOrderedBuffer");
   return false;
 }
@@ -2104,8 +2104,8 @@ static bool checkVKIndexAppertainsTo(Sema &S, const AttributeList &Attr, const D
 
 static bool isSubpassInput(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-      (S->getType()->getAs<RecordType>()->getDecl()->getName() == "SubpassInput" ||
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+      (S->getType()->getAs<RecordType>()->getDecl()->getName() == "SubpassInput" ||
        S->getType()->getAs<RecordType>()->getDecl()->getName() == "SubpassInputMS");
   return false;
 }
@@ -2190,9 +2190,9 @@ static bool checkVKReferenceExtAppertainsTo(Sema &S, const AttributeList &Attr, 
 
 static bool isConstantBuffer(const Decl *D) {
   if (const VarDecl *S = dyn_cast<VarDecl>(D))
-    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
-                 S->getType()->getAs<RecordType>()->getDecl() &&
-                 S->getType()->getAs<RecordType>()->getDecl()->getName() ==
+    return S->hasGlobalStorage() && S->getType()->getAs<RecordType>() &&
+                 S->getType()->getAs<RecordType>()->getDecl() &&
+                 S->getType()->getAs<RecordType>()->getDecl()->getName() ==
                      "ConstantBuffer";
   return false;
 }

@@ -1051,14 +1051,14 @@ public:
       std::memcpy(this->message, S.data(), messageLength);
   }
 
-static llvm::StringRef getPrettyPlatformName(llvm::StringRef Platform) {
-    return llvm::StringSwitch<llvm::StringRef>(Platform)
-             .Case("android", "Android")
-             .Case("ios", "iOS")
-             .Case("macosx", "OS X")
-             .Case("ios_app_extension", "iOS (App Extension)")
-             .Case("macosx_app_extension", "OS X (App Extension)")
-             .Default(llvm::StringRef());
+static llvm::StringRef getPrettyPlatformName(llvm::StringRef Platform) {
+    return llvm::StringSwitch<llvm::StringRef>(Platform)
+             .Case("android", "Android")
+             .Case("ios", "iOS")
+             .Case("macosx", "OS X")
+             .Case("ios_app_extension", "iOS (App Extension)")
+             .Case("macosx_app_extension", "OS X (App Extension)")
+             .Default(llvm::StringRef());
 } 
 
   static bool classof(const Attr *A) { return A->getKind() == attr::Availability; }
@@ -1656,9 +1656,9 @@ public:
       std::memcpy(this->name, S.data(), nameLength);
   }
 
-
-    bool isMutex() const { return getName().equals_lower("mutex"); }
-    bool isRole() const { return getName().equals_lower("role"); }
+
+    bool isMutex() const { return getName().equals_lower("mutex"); }
+    bool isRole() const { return getName().equals_lower("role"); }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::Capability; }
@@ -2346,17 +2346,17 @@ public:
   void printPretty(raw_ostream &OS,
                    const PrintingPolicy &Policy) const;
   const char *getSpelling() const;
-
-private:
-    llvm::APInt FlagBits;
-public:
-    llvm::APInt &getFlagBits() {
-      return FlagBits;
-    }
-
-    const llvm::APInt &getFlagBits() const {
-      return FlagBits;
-    }
+
+private:
+    llvm::APInt FlagBits;
+public:
+    llvm::APInt &getFlagBits() {
+      return FlagBits;
+    }
+
+    const llvm::APInt &getFlagBits() const {
+      return FlagBits;
+    }
 
 
   static bool classof(const Attr *A) { return A->getKind() == attr::FlagEnum; }
@@ -4111,80 +4111,80 @@ public:
     }
     llvm_unreachable("No enumerator with that value");
   }
-hlsl::DXIL::NodeIOKind getNodeIOType() const {
-      switch (type) {
-      case DispatchNodeInputRecord:
-        return hlsl::DXIL::NodeIOKind::DispatchNodeInputRecord;
-      case RWDispatchNodeInputRecord:
-        return hlsl::DXIL::NodeIOKind::RWDispatchNodeInputRecord;
-      case GroupNodeInputRecords:
-        return hlsl::DXIL::NodeIOKind::GroupNodeInputRecords;
-      case RWGroupNodeInputRecords:
-        return hlsl::DXIL::NodeIOKind::RWGroupNodeInputRecords;
-      case ThreadNodeInputRecord:
-        return hlsl::DXIL::NodeIOKind::ThreadNodeInputRecord;
-      case RWThreadNodeInputRecord:
-        return hlsl::DXIL::NodeIOKind::RWThreadNodeInputRecord;
-      case EmptyNodeInput:
-        return hlsl::DXIL::NodeIOKind::EmptyInput;
-      case NodeOutput:
-        return hlsl::DXIL::NodeIOKind::NodeOutput;
-      case EmptyNodeOutput:
-        return hlsl::DXIL::NodeIOKind::EmptyOutput;
-      case NodeOutputArray:
-        return hlsl::DXIL::NodeIOKind::NodeOutputArray;
-      case EmptyNodeOutputArray:
-        return hlsl::DXIL::NodeIOKind::EmptyOutputArray;
-      case GroupNodeOutputRecords:
-        return hlsl::DXIL::NodeIOKind::GroupNodeOutputRecords;
-      case ThreadNodeOutputRecords:
-        return hlsl::DXIL::NodeIOKind::ThreadNodeOutputRecords;
-      }
-      llvm_unreachable("all cases exhausted");
-      return hlsl::DXIL::NodeIOKind::Invalid;
-    }
-
-    static RecordType toAttrType(hlsl::DXIL::NodeIOKind Type) {
-      switch (Type) {
-      case hlsl::DXIL::NodeIOKind::DispatchNodeInputRecord:
-        return DispatchNodeInputRecord;
-      case hlsl::DXIL::NodeIOKind::RWDispatchNodeInputRecord:
-        return RWDispatchNodeInputRecord;
-      case hlsl::DXIL::NodeIOKind::GroupNodeInputRecords:
-        return GroupNodeInputRecords;
-      case hlsl::DXIL::NodeIOKind::RWGroupNodeInputRecords:
-        return RWGroupNodeInputRecords;
-      case hlsl::DXIL::NodeIOKind::ThreadNodeInputRecord:
-        return ThreadNodeInputRecord;
-      case hlsl::DXIL::NodeIOKind::RWThreadNodeInputRecord:
-        return RWThreadNodeInputRecord;
-      case hlsl::DXIL::NodeIOKind::EmptyInput:
-        return EmptyNodeInput;
-      case hlsl::DXIL::NodeIOKind::NodeOutput:
-        return NodeOutput;
-      case hlsl::DXIL::NodeIOKind::EmptyOutput:
-        return EmptyNodeOutput;
-      case hlsl::DXIL::NodeIOKind::NodeOutputArray:
-        return NodeOutputArray;
-      case hlsl::DXIL::NodeIOKind::EmptyOutputArray:
-        return EmptyNodeOutputArray;
-      case hlsl::DXIL::NodeIOKind::GroupNodeOutputRecords:
-        return GroupNodeOutputRecords;
-      case hlsl::DXIL::NodeIOKind::ThreadNodeOutputRecords:
-        return ThreadNodeOutputRecords;
-      }
-      llvm_unreachable("all cases exhausted");
-    }
-
-    static HLSLNodeObjectAttr *CreateImplicit(ASTContext &Ctx,
-                                              hlsl::DXIL::NodeIOKind Type,
-                                              SourceRange Loc = SourceRange()) {
-      return CreateImplicit(Ctx, toAttrType(Type), Loc);
-    }
-
-    static const char *ConvertRecordTypeToStr(hlsl::DXIL::NodeIOKind Type) {
-      return ConvertRecordTypeToStr(toAttrType(Type));
-    }
+hlsl::DXIL::NodeIOKind getNodeIOType() const {
+      switch (type) {
+      case DispatchNodeInputRecord:
+        return hlsl::DXIL::NodeIOKind::DispatchNodeInputRecord;
+      case RWDispatchNodeInputRecord:
+        return hlsl::DXIL::NodeIOKind::RWDispatchNodeInputRecord;
+      case GroupNodeInputRecords:
+        return hlsl::DXIL::NodeIOKind::GroupNodeInputRecords;
+      case RWGroupNodeInputRecords:
+        return hlsl::DXIL::NodeIOKind::RWGroupNodeInputRecords;
+      case ThreadNodeInputRecord:
+        return hlsl::DXIL::NodeIOKind::ThreadNodeInputRecord;
+      case RWThreadNodeInputRecord:
+        return hlsl::DXIL::NodeIOKind::RWThreadNodeInputRecord;
+      case EmptyNodeInput:
+        return hlsl::DXIL::NodeIOKind::EmptyInput;
+      case NodeOutput:
+        return hlsl::DXIL::NodeIOKind::NodeOutput;
+      case EmptyNodeOutput:
+        return hlsl::DXIL::NodeIOKind::EmptyOutput;
+      case NodeOutputArray:
+        return hlsl::DXIL::NodeIOKind::NodeOutputArray;
+      case EmptyNodeOutputArray:
+        return hlsl::DXIL::NodeIOKind::EmptyOutputArray;
+      case GroupNodeOutputRecords:
+        return hlsl::DXIL::NodeIOKind::GroupNodeOutputRecords;
+      case ThreadNodeOutputRecords:
+        return hlsl::DXIL::NodeIOKind::ThreadNodeOutputRecords;
+      }
+      llvm_unreachable("all cases exhausted");
+      return hlsl::DXIL::NodeIOKind::Invalid;
+    }
+
+    static RecordType toAttrType(hlsl::DXIL::NodeIOKind Type) {
+      switch (Type) {
+      case hlsl::DXIL::NodeIOKind::DispatchNodeInputRecord:
+        return DispatchNodeInputRecord;
+      case hlsl::DXIL::NodeIOKind::RWDispatchNodeInputRecord:
+        return RWDispatchNodeInputRecord;
+      case hlsl::DXIL::NodeIOKind::GroupNodeInputRecords:
+        return GroupNodeInputRecords;
+      case hlsl::DXIL::NodeIOKind::RWGroupNodeInputRecords:
+        return RWGroupNodeInputRecords;
+      case hlsl::DXIL::NodeIOKind::ThreadNodeInputRecord:
+        return ThreadNodeInputRecord;
+      case hlsl::DXIL::NodeIOKind::RWThreadNodeInputRecord:
+        return RWThreadNodeInputRecord;
+      case hlsl::DXIL::NodeIOKind::EmptyInput:
+        return EmptyNodeInput;
+      case hlsl::DXIL::NodeIOKind::NodeOutput:
+        return NodeOutput;
+      case hlsl::DXIL::NodeIOKind::EmptyOutput:
+        return EmptyNodeOutput;
+      case hlsl::DXIL::NodeIOKind::NodeOutputArray:
+        return NodeOutputArray;
+      case hlsl::DXIL::NodeIOKind::EmptyOutputArray:
+        return EmptyNodeOutputArray;
+      case hlsl::DXIL::NodeIOKind::GroupNodeOutputRecords:
+        return GroupNodeOutputRecords;
+      case hlsl::DXIL::NodeIOKind::ThreadNodeOutputRecords:
+        return ThreadNodeOutputRecords;
+      }
+      llvm_unreachable("all cases exhausted");
+    }
+
+    static HLSLNodeObjectAttr *CreateImplicit(ASTContext &Ctx,
+                                              hlsl::DXIL::NodeIOKind Type,
+                                              SourceRange Loc = SourceRange()) {
+      return CreateImplicit(Ctx, toAttrType(Type), Loc);
+    }
+
+    static const char *ConvertRecordTypeToStr(hlsl::DXIL::NodeIOKind Type) {
+      return ConvertRecordTypeToStr(toAttrType(Type));
+    }
     
 
   static bool classof(const Attr *A) { return A->getKind() == attr::HLSLNodeObject; }
@@ -4740,13 +4740,13 @@ public:
     return resClassUint;
   }
 
-
-  hlsl::DXIL::ResourceKind getResKind() const {
-    return (hlsl::DXIL::ResourceKind)getResKindUint();
-  }
-  hlsl::DXIL::ResourceClass getResClass() const {
-    return (hlsl::DXIL::ResourceClass)getResClassUint();
-  }
+
+  hlsl::DXIL::ResourceKind getResKind() const {
+    return (hlsl::DXIL::ResourceKind)getResKindUint();
+  }
+  hlsl::DXIL::ResourceClass getResClass() const {
+    return (hlsl::DXIL::ResourceClass)getResClassUint();
+  }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::HLSLResource; }
@@ -5403,12 +5403,12 @@ public:
 
   static const int DefaultPreferred = 0;
 
-
-    private:
-    int SpelledArgsCount = 0;
-    public:
-      int getSpelledArgsCount() const { return SpelledArgsCount; }
-      void setSpelledArgsCount(int C) { SpelledArgsCount = C; }
+
+    private:
+    int SpelledArgsCount = 0;
+    public:
+      int getSpelledArgsCount() const { return SpelledArgsCount; }
+      void setSpelledArgsCount(int C) { SpelledArgsCount = C; }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::HLSLWaveSize; }
@@ -5607,10 +5607,10 @@ public:
       std::memcpy(this->section, S.data(), sectionLength);
   }
 
-
-  void printPrettyPragma(raw_ostream &OS, const PrintingPolicy &Policy) const {
-    OS << '(' << getSection() << ')';
-  }
+
+  void printPrettyPragma(raw_ostream &OS, const PrintingPolicy &Policy) const {
+    OS << '(' << getSection() << ')';
+  }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::InitSeg; }
@@ -5850,68 +5850,68 @@ public:
     return value;
   }
 
-
-  static const char *getOptionName(int Option) {
-    switch(Option) {
-    case Vectorize: return "vectorize";
-    case VectorizeWidth: return "vectorize_width";
-    case Interleave: return "interleave";
-    case InterleaveCount: return "interleave_count";
-    case Unroll: return "unroll";
-    case UnrollCount: return "unroll_count";
-    }
-    llvm_unreachable("Unhandled LoopHint option.");
-  }
-
-  void printPrettyPragma(raw_ostream &OS, const PrintingPolicy &Policy) const {
-    unsigned SpellingIndex = getSpellingListIndex();
-    // For "#pragma unroll" and "#pragma nounroll" the string "unroll" or
-    // "nounroll" is already emitted as the pragma name.
-    if (SpellingIndex == Pragma_nounroll) {
-      OS << "\n";
-      return;
-    }
-    else if (SpellingIndex == Pragma_unroll) {
-      OS << getValueString(Policy) << "\n";
-      return;
-    }
-
-    assert(SpellingIndex == Pragma_clang_loop && "Unexpected spelling");
-    OS << getOptionName(option) << getValueString(Policy) << "\n";
-  }
-
-  // Return a string containing the loop hint argument including the
-  // enclosing parentheses.
-  std::string getValueString(const PrintingPolicy &Policy) const {
-    std::string ValueName;
-    llvm::raw_string_ostream OS(ValueName);
-    OS << "(";
-    if (option == VectorizeWidth || option == InterleaveCount ||
-        option == UnrollCount)
-      value->printPretty(OS, nullptr, Policy);
-    else if (state == Default)
-      return "";
-    else if (state == Enable)
-      OS << (option == Unroll ? "full" : "enable");
-    else if (state == AssumeSafety)
-      OS << "assume_safety";
-    else
-      OS << "disable";
-    OS << ")";
-    return OS.str();
-  }
-
-  // Return a string suitable for identifying this attribute in diagnostics.
-  std::string getDiagnosticName(const PrintingPolicy &Policy) const {
-    unsigned SpellingIndex = getSpellingListIndex();
-    if (SpellingIndex == Pragma_nounroll)
-      return "#pragma nounroll";
-    else if (SpellingIndex == Pragma_unroll)
-      return "#pragma unroll" + getValueString(Policy);
-
-    assert(SpellingIndex == Pragma_clang_loop && "Unexpected spelling");
-    return getOptionName(option) + getValueString(Policy);
-  }
+
+  static const char *getOptionName(int Option) {
+    switch(Option) {
+    case Vectorize: return "vectorize";
+    case VectorizeWidth: return "vectorize_width";
+    case Interleave: return "interleave";
+    case InterleaveCount: return "interleave_count";
+    case Unroll: return "unroll";
+    case UnrollCount: return "unroll_count";
+    }
+    llvm_unreachable("Unhandled LoopHint option.");
+  }
+
+  void printPrettyPragma(raw_ostream &OS, const PrintingPolicy &Policy) const {
+    unsigned SpellingIndex = getSpellingListIndex();
+    // For "#pragma unroll" and "#pragma nounroll" the string "unroll" or
+    // "nounroll" is already emitted as the pragma name.
+    if (SpellingIndex == Pragma_nounroll) {
+      OS << "\n";
+      return;
+    }
+    else if (SpellingIndex == Pragma_unroll) {
+      OS << getValueString(Policy) << "\n";
+      return;
+    }
+
+    assert(SpellingIndex == Pragma_clang_loop && "Unexpected spelling");
+    OS << getOptionName(option) << getValueString(Policy) << "\n";
+  }
+
+  // Return a string containing the loop hint argument including the
+  // enclosing parentheses.
+  std::string getValueString(const PrintingPolicy &Policy) const {
+    std::string ValueName;
+    llvm::raw_string_ostream OS(ValueName);
+    OS << "(";
+    if (option == VectorizeWidth || option == InterleaveCount ||
+        option == UnrollCount)
+      value->printPretty(OS, nullptr, Policy);
+    else if (state == Default)
+      return "";
+    else if (state == Enable)
+      OS << (option == Unroll ? "full" : "enable");
+    else if (state == AssumeSafety)
+      OS << "assume_safety";
+    else
+      OS << "disable";
+    OS << ")";
+    return OS.str();
+  }
+
+  // Return a string suitable for identifying this attribute in diagnostics.
+  std::string getDiagnosticName(const PrintingPolicy &Policy) const {
+    unsigned SpellingIndex = getSpellingListIndex();
+    if (SpellingIndex == Pragma_nounroll)
+      return "#pragma nounroll";
+    else if (SpellingIndex == Pragma_unroll)
+      return "#pragma unroll" + getValueString(Policy);
+
+    assert(SpellingIndex == Pragma_clang_loop && "Unexpected spelling");
+    return getOptionName(option) + getValueString(Policy);
+  }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::LoopHint; }
@@ -5997,27 +5997,27 @@ public:
 
   static const bool DefaultBestCase = 1;
 
-
-  static bool hasVBPtrOffsetField(Spelling Inheritance) {
-    return Inheritance == Keyword_unspecified_inheritance;
-  }
-
-  // Only member pointers to functions need a this adjustment, since it can be
-  // combined with the field offset for data pointers.
-  static bool hasNVOffsetField(bool IsMemberFunction, Spelling Inheritance) {
-    return IsMemberFunction && Inheritance >= Keyword_multiple_inheritance;
-  }
-
-  static bool hasVBTableOffsetField(Spelling Inheritance) {
-    return Inheritance >= Keyword_virtual_inheritance;
-  }
-
-  static bool hasOnlyOneField(bool IsMemberFunction,
-                              Spelling Inheritance) {
-    if (IsMemberFunction)
-      return Inheritance <= Keyword_single_inheritance;
-    return Inheritance <= Keyword_multiple_inheritance;
-  }
+
+  static bool hasVBPtrOffsetField(Spelling Inheritance) {
+    return Inheritance == Keyword_unspecified_inheritance;
+  }
+
+  // Only member pointers to functions need a this adjustment, since it can be
+  // combined with the field offset for data pointers.
+  static bool hasNVOffsetField(bool IsMemberFunction, Spelling Inheritance) {
+    return IsMemberFunction && Inheritance >= Keyword_multiple_inheritance;
+  }
+
+  static bool hasVBTableOffsetField(Spelling Inheritance) {
+    return Inheritance >= Keyword_virtual_inheritance;
+  }
+
+  static bool hasOnlyOneField(bool IsMemberFunction,
+                              Spelling Inheritance) {
+    if (IsMemberFunction)
+      return Inheritance <= Keyword_single_inheritance;
+    return Inheritance <= Keyword_multiple_inheritance;
+  }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::MSInheritance; }
@@ -6136,14 +6136,14 @@ public:
     return vdm;
   }
 
-
-  enum Mode {
-    Never,
-    ForVBaseOverride,
-    ForVFTable
-  };
-
-  Mode getVtorDispMode() const { return Mode(vdm); }
+
+  enum Mode {
+    Never,
+    ForVBaseOverride,
+    ForVFTable
+  };
+
+  Mode getVtorDispMode() const { return Mode(vdm); }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::MSVtorDisp; }
@@ -6658,16 +6658,16 @@ public:
   llvm::iterator_range<sanitizers_iterator> sanitizers() const { return llvm::make_range(sanitizers_begin(), sanitizers_end()); }
 
 
-
-    SanitizerMask getMask() const {
-      SanitizerMask Mask = 0;
-      for (auto SanitizerName : sanitizers()) {
-        SanitizerMask ParsedMask =
-            parseSanitizerValue(SanitizerName, /*AllowGroups=*/true);
-        Mask |= expandSanitizerGroups(ParsedMask);
-      }
-      return Mask;
-    }
+
+    SanitizerMask getMask() const {
+      SanitizerMask Mask = 0;
+      for (auto SanitizerName : sanitizers()) {
+        SanitizerMask ParsedMask =
+            parseSanitizerValue(SanitizerName, /*AllowGroups=*/true);
+        Mask |= expandSanitizerGroups(ParsedMask);
+      }
+      return Mask;
+    }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::NoSanitize; }
@@ -6789,13 +6789,13 @@ public:
   llvm::iterator_range<args_iterator> args() const { return llvm::make_range(args_begin(), args_end()); }
 
 
-bool isNonNull(unsigned idx) const {
-    if (!args_size())
-      return true;
-    for (const auto &V : args())
-      if (V == idx)
-        return true;
-    return false;
+bool isNonNull(unsigned idx) const {
+    if (!args_size())
+      return true;
+    for (const auto &V : args())
+      if (V == idx)
+        return true;
+    return false;
   } 
 
   static bool classof(const Attr *A) { return A->getKind() == attr::NonNull; }
@@ -7555,13 +7555,13 @@ public:
   llvm::iterator_range<args_iterator> args() const { return llvm::make_range(args_begin(), args_end()); }
 
 
-
-    enum OwnershipKind { Holds, Returns, Takes };
-    OwnershipKind getOwnKind() const {
-      return isHolds() ? Holds :
-             isTakes() ? Takes :
-             Returns;
-    }
+
+    enum OwnershipKind { Holds, Returns, Takes };
+    OwnershipKind getOwnKind() const {
+      return isHolds() ? Holds :
+             isTakes() ? Takes :
+             Returns;
+    }
   
 
   static bool classof(const Attr *A) { return A->getKind() == attr::Ownership; }

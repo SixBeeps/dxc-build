@@ -2,7 +2,10 @@
 // DO NOT MODIFY!!!
 // Changes to this code are made in gen_intrin_main.txt
 
-static const char *OpCodeSignatures[] = {
+
+
+// Opcode Signatures for Table CoreOps, id=0
+static const char *OpCodeSignatures_CoreOps[] = {
   "(index)",  // TempRegLoad
   "(index,value)",  // TempRegStore
   "(regIndex,index,component)",  // MinPrecXRegLoad
@@ -315,5 +318,47 @@ static const char *OpCodeSignatures[] = {
   "(a)",  // VectorReduceAnd
   "(a)",  // VectorReduceOr
   "(a,b)"  // FDot
+};
+
+
+// Opcode Signatures for Table ExperimentalOps, id=32768
+static const char *OpCodeSignatures_ExperimentalOps[] = {
+  "()",  // ExperimentalNop
+  "()",  // GetGroupWaveIndex
+  "()",  // GetGroupWaveCount
+  "()",  // ClusterID
+  "(rayQueryHandle)",  // RayQuery_CandidateClusterID
+  "(rayQueryHandle)",  // RayQuery_CommittedClusterID
+  "(hitObject)",  // HitObject_ClusterID
+  "()",  // TriangleObjectPosition
+  "(rayQueryHandle)",  // RayQuery_CandidateTriangleObjectPosition
+  "(rayQueryHandle)",  // RayQuery_CommittedTriangleObjectPosition
+  "(hitObject)",  // HitObject_TriangleObjectPosition
+  "()",  // CreateMatrix
+  "(matrix,value)",  // FillMatrix
+  "(destination,source,transpose)",  // CopyConvertMatrix
+  "(matrix,handle,offset,stride,layout)",  // MatrixLoadFromDescriptor
+  "(matrix,groupsharedArr,offset,stride,layout)",  // MatrixLoadFromMemory
+  "(matrix)",  // MatrixLength
+  "(matrix,threadLocalIndex)",  // MatrixGetCoordinate
+  "(matrix,threadLocalIndex)",  // MatrixGetElement
+  "(matrix,threadLocalIndex,value)",  // MatrixSetElement
+  "(matrix,handle,offset,stride,layout)",  // MatrixStoreToDescriptor
+  "(matrix,groupsharedArr,offset,stride,layout)",  // MatrixStoreToMemory
+  "()",  // MatrixQueryAccumulatorLayout
+  "(matrixA,matrixB,matrixC)",  // MatrixMulOp
+  "(matrixRHS,matrixLHS)",  // MatrixAccumulate
+  "(matrix,inputVector,interpretation)",  // MatrixVecMul
+  "(matrix,inputVector,inputInterpretation,biasVector,biasInterpretation)",  // MatrixVecMulAdd
+  "(matrix,handle,offset,stride,layout)",  // MatrixAccumulateToDescriptor
+  "(matrix,groupsharedArr,offset,stride,layout)",  // MatrixAccumulateToMemory
+  "(matrix,vectorA,vectorB)",  // MatrixOuterProduct
+  "()",  // LinAlgMatrixReserved0
+  "()",  // LinAlgMatrixReserved1
+  "()"  // LinAlgMatrixReserved2
+};
+static const char **OpCodeSignatures[] = {
+  OpCodeSignatures_CoreOps,
+  OpCodeSignatures_ExperimentalOps,
 };
 

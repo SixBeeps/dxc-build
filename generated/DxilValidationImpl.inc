@@ -77,7 +77,8 @@ switch(value) {
   case hlsl::ValidationRule::InstrInBoundsAccess: return "Access to out-of-bounds memory is disallowed.";
   case hlsl::ValidationRule::InstrOpConstRange: return "Constant values must be in-range for operation.";
   case hlsl::ValidationRule::InstrImmBiasForSampleB: return "bias amount for sample_b must be in the range [%0,%1], but %2 was specified as an immediate.";
-  case hlsl::ValidationRule::InstrIllegalDXILOpCode: return "DXILOpCode must be [0..%0].  %1 specified.";
+  case hlsl::ValidationRule::InstrIllegalDXILOpCode: return "DXILOpCode must be [0..%0] or a supported experimental opcode.  %1 specified.";
+  case hlsl::ValidationRule::InstrExpDXILOpCodeRequiresExpSM: return "Use of experimental DXILOpCode requires an experimental shader model.";
   case hlsl::ValidationRule::InstrIllegalDXILOpFunction: return "'%0' is not a DXILOpFuncition for DXILOpcode '%1'.";
   case hlsl::ValidationRule::InstrNoIndefiniteLog: return "No indefinite logarithm.";
   case hlsl::ValidationRule::InstrNoIndefiniteAsin: return "No indefinite arcsine.";
@@ -293,7 +294,7 @@ switch(value) {
   case hlsl::ValidationRule::SmIncompatibleThreadGroupDim: return "Function uses derivatives in compute-model shader with NumThreads (%0, %1, %2); derivatives require NumThreads to be 1D and a multiple of 4, or 2D/3D with X and Y both being a multiple of 2.";
   case hlsl::ValidationRule::SmIncompatibleDerivInComputeShaderModel: return "Function uses derivatives in compute-model shader, which is only supported in shader model 6.6 and above.";
   case hlsl::ValidationRule::SmIncompatibleRequiresGroup: return "Function requires a visible group, but is called from a shader without one.";
-  case hlsl::ValidationRule::SmIncompatibleDerivLaunch: return "Function called from %0 launch node shader uses derivatives; only broadcasting launch supports derivatives.";
+  case hlsl::ValidationRule::SmIncompatibleDerivLaunch: return "Function called from %0 launch node shader uses derivatives; only broadcasting and coalescing launch modes support derivatives.";
 }
   llvm_unreachable("invalid value");
   return "<unknown>";
@@ -499,9 +500,36 @@ if ((262 <= op && op <= 267) || (269 <= op && op <= 289))
   return (major > 6 || (major == 6 && minor >= 9))
       && (SK == DXIL::ShaderKind::Library || SK == DXIL::ShaderKind::RayGeneration || SK == DXIL::ShaderKind::ClosestHit || SK == DXIL::ShaderKind::Miss);
 // Instructions: MatVecMul=305, MatVecMulAdd=306, OuterProductAccumulate=307,
-// VectorAccumulate=308
-if ((305 <= op && op <= 308))
+// VectorAccumulate=308, ExperimentalNop=2147483648,
+// RayQuery_CandidateClusterID=2147483652,
+// RayQuery_CommittedClusterID=2147483653,
+// RayQuery_CandidateTriangleObjectPosition=2147483656,
+// RayQuery_CommittedTriangleObjectPosition=2147483657,
+// CreateMatrix=2147483659, FillMatrix=2147483660,
+// CopyConvertMatrix=2147483661, MatrixLoadFromDescriptor=2147483662,
+// MatrixLoadFromMemory=2147483663, MatrixLength=2147483664,
+// MatrixGetCoordinate=2147483665, MatrixGetElement=2147483666,
+// MatrixSetElement=2147483667, MatrixStoreToDescriptor=2147483668,
+// MatrixStoreToMemory=2147483669, MatrixQueryAccumulatorLayout=2147483670,
+// MatrixMulOp=2147483671, MatrixAccumulate=2147483672,
+// MatrixVecMul=2147483673, MatrixVecMulAdd=2147483674,
+// MatrixAccumulateToDescriptor=2147483675,
+// MatrixAccumulateToMemory=2147483676, MatrixOuterProduct=2147483677
+if ((305 <= op && op <= 308) || op == 2147483648 || (2147483652 <= op && op <= 2147483653) || (2147483656 <= op && op <= 2147483657) || (2147483659 <= op && op <= 2147483677))
   return (major > 6 || (major == 6 && minor >= 10));
+// Instructions: GetGroupWaveIndex=2147483649, GetGroupWaveCount=2147483650
+if ((2147483649 <= op && op <= 2147483650))
+  return (major > 6 || (major == 6 && minor >= 10))
+      && (SK == DXIL::ShaderKind::Compute || SK == DXIL::ShaderKind::Mesh || SK == DXIL::ShaderKind::Amplification || SK == DXIL::ShaderKind::Node);
+// Instructions: ClusterID=2147483651, TriangleObjectPosition=2147483655
+if (op == 2147483651 || op == 2147483655)
+  return (major > 6 || (major == 6 && minor >= 10))
+      && (SK == DXIL::ShaderKind::Library || SK == DXIL::ShaderKind::AnyHit || SK == DXIL::ShaderKind::ClosestHit);
+// Instructions: HitObject_ClusterID=2147483654,
+// HitObject_TriangleObjectPosition=2147483658
+if (op == 2147483654 || op == 2147483658)
+  return (major > 6 || (major == 6 && minor >= 10))
+      && (SK == DXIL::ShaderKind::Library || SK == DXIL::ShaderKind::RayGeneration || SK == DXIL::ShaderKind::ClosestHit || SK == DXIL::ShaderKind::Miss);
 return true;
 }
 

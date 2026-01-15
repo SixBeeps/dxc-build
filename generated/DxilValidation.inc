@@ -66,10 +66,11 @@ enum class ValidationRule : unsigned {
   InstrDxilStructUser, // Dxil struct types should only be used by ExtractValue.
   InstrDxilStructUserOutOfBound, // Index out of bound when extract value from dxil struct types.
   InstrEvalInterpolationMode, // Interpolation mode on %0 used with eval_* instruction must be linear, linear_centroid, linear_noperspective, linear_noperspective_centroid, linear_sample or linear_noperspective_sample.
+  InstrExpDXILOpCodeRequiresExpSM, // Use of experimental DXILOpCode requires an experimental shader model.
   InstrExtractValue, // ExtractValue should only be used on dxil struct types and cmpxchg.
   InstrFailToResloveTGSMPointer, // TGSM pointers must originate from an unambiguous TGSM global variable.
   InstrHandleNotFromCreateHandle, // Resource handle should returned by createHandle.
-  InstrIllegalDXILOpCode, // DXILOpCode must be [0..%0].  %1 specified.
+  InstrIllegalDXILOpCode, // DXILOpCode must be valid or a supported experimental opcode.
   InstrIllegalDXILOpFunction, // '%0' is not a DXILOpFuncition for DXILOpcode '%1'.
   InstrImmBiasForSampleB, // bias amount for sample_b must be in the range [%0,%1], but %2 was specified as an immediate.
   InstrInBoundsAccess, // Access to out-of-bounds memory is disallowed.
@@ -231,7 +232,7 @@ enum class ValidationRule : unsigned {
   SmHullPassThruControlPointCountMatch, // For pass thru hull shader, input control point count must match output control point count
   SmIncompatibleCallInEntry, // Features used in internal function calls must be compatible with entry
   SmIncompatibleDerivInComputeShaderModel, // Derivatives in compute-model shaders require shader model 6.6 and above
-  SmIncompatibleDerivLaunch, // Node shaders only support derivatives in broadcasting launch mode
+  SmIncompatibleDerivLaunch, // Node shaders only support derivatives in broadcasting and coalescing launch modes
   SmIncompatibleOperation, // Operations used in entry function must be compatible with shader stage and other properties
   SmIncompatibleRequiresGroup, // Functions requiring groupshared memory must be called from shaders with a visible group
   SmIncompatibleShaderModel, // Functions may only use features available in the current shader model

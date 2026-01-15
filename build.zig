@@ -22,6 +22,8 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const strip = b.option(bool, "strip", "strip information") orelse true;
+
     if (target.result.abi == .musl) {
         std.debug.panic("DXC does not support musl (requires dynamic linking).\n", .{});
         return;
@@ -37,7 +39,8 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .strip = true,
+        .strip = strip,
+        .sanitize_c = .off,
     });
 
     const spirv_headers = b.addLibrary(.{
@@ -62,8 +65,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     const lib = b.addLibrary(.{
         .name = "llvm",
@@ -246,8 +250,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     clang_root_module.addIncludePath(clang_include_dir);
     clang_root_module.addIncludePath(b.path("generated"));
@@ -280,8 +285,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     libclang_root_module.addCSourceFiles(.{
         .root = libclang_path,
@@ -329,8 +335,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     validator_root_module.addCSourceFiles(.{
         .root = validator_path,
@@ -358,8 +365,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     compiler_root_module.addCSourceFiles(.{
         .root = upstream.path("tools/clang/tools/dxcompiler"),
@@ -408,8 +416,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     dxclib_executable_root_module.addCSourceFiles(.{
         .root = dxclib_path,
@@ -440,8 +449,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     dxc_exe_root_module.linkLibrary(dxclib_lib);
     dxc_exe_root_module.addCSourceFiles(.{
@@ -470,8 +480,9 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
-        .strip = true,
+        .pic = null,
+        .strip = strip,
+        .sanitize_c = .off,
     });
     dxil_root_module.addCSourceFiles(.{
         .root = dxil_path,
@@ -883,8 +894,9 @@ fn buildSpirvTools(b: *std.Build, target: std.Build.ResolvedTarget, optimize: st
         .optimize = optimize,
         .link_libc = true,
         .link_libcpp = true,
-        .pic = true,
+        .pic = null,
         .strip = true,
+        .sanitize_c = .off,
     });
     spirv_tools_root_module.addIncludePath(spirv_tools_dep.path("."));
     spirv_tools_root_module.addIncludePath(spirv_tools_dep.path("include"));
@@ -1280,8 +1292,8 @@ const Version = struct {
 
     pub fn make(step: *std.Build.Step, _: std.Build.Step.MakeOptions) anyerror!void {
         const self: *Version = @fieldParentPtr("step", step);
-        const file: std.fs.File = .stdout();
-        var writer = file.writer(&.{});
+        const file: std.Io.File = .stdout();
+        var writer = file.writer(step.owner.graph.io, &.{});
         try writer.interface.print("{f}\n", .{self.version});
     }
 };
