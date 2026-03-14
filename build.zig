@@ -961,32 +961,35 @@ fn buildSpirvTools(b: *std.Build, target: std.Build.ResolvedTarget, optimize: st
     generate_core_tables.addPrefixedFileArg("--extinst=,", grammar_path.path(b, "extinst.spv-amd-shader-ballot.grammar.json"));
     generate_core_tables.addPrefixedFileArg("--extinst=,", grammar_path.path(b, "extinst.spv-amd-shader-explicit-vertex-parameter.grammar.json"));
     generate_core_tables.addPrefixedFileArg("--extinst=,", grammar_path.path(b, "extinst.spv-amd-shader-trinary-minmax.grammar.json"));
-    generate_core_tables.addPrefixedFileArg("--core-tables-body-output=", new_include_folder.path(b, "core_tables_body.inc"));
-    generate_core_tables.addPrefixedFileArg("--core-tables-header-output=", new_include_folder.path(b, "core_tables_header.inc"));
+    _ = write_files.addCopyFile(generate_core_tables.addPrefixedOutputFileArg("--core-tables-body-output=", "core_tables_body.inc"), "core_tables_body.inc");
+    _ = write_files.addCopyFile(generate_core_tables.addPrefixedOutputFileArg("--core-tables-header-output=", "core_tables_header.inc"), "core_tables_header.inc");
 
     const generate_generators_include = try pythonCommand(b);
     generate_generators_include.addFileArg(spirv_tools_dep.path("utils/generate_registry_tables.py"));
     generate_generators_include.addPrefixedFileArg("--xml=", spirv_headers_dep.path("include/spirv/spir-v.xml"));
-    generate_generators_include.addPrefixedFileArg("--generator=", new_include_folder.path(b, "generators.inc"));
+    _ = write_files.addCopyFile(generate_generators_include.addPrefixedOutputFileArg("--generator=", "generators.inc"), "generators.inc");
 
     const generate_build_version = try pythonCommand(b);
     generate_build_version.addFileArg(spirv_tools_dep.path("utils/update_build_version.py"));
     generate_build_version.addFileArg(spirv_tools_dep.path("CHANGES"));
-    generate_build_version.addFileArg(new_include_folder.path(b, "build-version.inc"));
+    _ = write_files.addCopyFile(generate_build_version.addOutputFileArg("build-version.inc"), "build-version.inc");
 
     const debug_info_header = try spvToolsLanguageHeader(
         b,
-        new_include_folder.path(b, "DebugInfo.h"),
+        write_files,
+        "DebugInfo.h",
         grammar_path.path(b, "extinst.debuginfo.grammar.json"),
     );
     const opencl_debug_info_header = try spvToolsLanguageHeader(
         b,
-        new_include_folder.path(b, "OpenCLDebugInfo100.h"),
+        write_files,
+        "OpenCLDebugInfo100.h",
         grammar_path.path(b, "extinst.opencl.debuginfo.100.grammar.json"),
     );
     const non_semantic_shader_debug_info_header = try spvToolsLanguageHeader(
         b,
-        new_include_folder.path(b, "NonSemanticShaderDebugInfo100.h"),
+        write_files,
+        "NonSemanticShaderDebugInfo100.h",
         grammar_path.path(b, "extinst.nonsemantic.shader.debuginfo.100.grammar.json"),
     );
 
@@ -1003,13 +1006,13 @@ fn buildSpirvTools(b: *std.Build, target: std.Build.ResolvedTarget, optimize: st
     return spirv_tools;
 }
 
-fn spvToolsLanguageHeader(b: *std.Build, output: std.Build.LazyPath, grammar_file: std.Build.LazyPath) !*std.Build.Step {
+fn spvToolsLanguageHeader(b: *std.Build, write_files: *std.Build.Step.WriteFile, output_name: []const u8, grammar_file: std.Build.LazyPath) !*std.Build.Step {
     const spirv_tools_dep = b.dependency("spirv_tools", .{});
 
     const cmd = try pythonCommand(b);
     cmd.addFileArg(spirv_tools_dep.path("utils/generate_language_headers.py"));
     cmd.addPrefixedFileArg("--extinst-grammar=", grammar_file);
-    cmd.addPrefixedFileArg("--extinst-output-path=", output);
+    _ = write_files.addCopyFile(cmd.addPrefixedOutputFileArg("--extinst-output-path=", output_name), output_name);
 
     return &cmd.step;
 }
